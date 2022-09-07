@@ -39,7 +39,9 @@ class CategoryController
 
         $category = new Category();
         $category->name = $name;
-        $category->parent_id = $parentId;
+        if ($parentId) {
+            $category->parent_id = $parentId;
+        }
         $category->save();
 
         // redirect back to index page
