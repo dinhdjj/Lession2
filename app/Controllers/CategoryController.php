@@ -25,15 +25,27 @@ class CategoryController
             'currentPage' => $currentPage,
             'totalPage' => $totalPage,
             'categories' => $categories,
+            'allCategories' => Category::select(),
         ]);
     }
 
     /**
      * Store a new category
-    */
-    // public function store(Application $app): View
-    // {
-    // }
+     */
+    public function store(Application $app): View
+    {
+        $name = $app->request()->input('name');
+        $parentId = $app->request()->input('parent_id');
+
+        $category = new Category();
+        $category->name = $name;
+        $category->parent_id = $parentId;
+        $category->save();
+
+        // redirect back to index page
+        header('Location: /');
+        exit;
+    }
 
     /**
     * Update a category

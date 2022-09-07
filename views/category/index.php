@@ -28,6 +28,7 @@ $renderCategoryRow = function ($category, $level = 0) use (&$renderCategoryRow) 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LE VAN DINH</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 </head>
 <body>
 
@@ -37,6 +38,10 @@ $renderCategoryRow = function ($category, $level = 0) use (&$renderCategoryRow) 
             <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
+
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#create-category-modal">
+            Create
+        </button>
     </nav>
 
     <!-- List categories -->
@@ -84,5 +89,52 @@ $renderCategoryRow = function ($category, $level = 0) use (&$renderCategoryRow) 
         </ul>
     </nav>    
 
+    <!-- Create category -->
+    <div class="modal" id="create-category-modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form method="POST" action="/store">
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                    <h4 class="modal-title">Create Category</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="create-category-name">Category Name</label>
+                            <input type="text" class="form-control" id="create-category-name" name="name" placeholder="Enter name">
+                        </div>
+                        <div class="form-group">
+                            <label for="create-category-parent-id">Parent Category</label>
+                            <br>
+                            <select id="create-category-parent-id" class="form-control" name="parent_id" placeholder="Parent name">
+                                <?php foreach ($allCategories as $category) { ?>
+                                    <option value="<?= $category->id ?>"><?= htmlspecialchars($category->name) ?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Create</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script >
+        $(document).ready(function () {
+            $('#create-category-parent-id').select2();
+        });
+    </script>
 </body>
 </html>
