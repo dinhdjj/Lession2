@@ -7,7 +7,7 @@ $renderCategoryRow = function ($category, $level = 0) use (&$renderCategoryRow) 
     $html .= '<td>'.str_repeat('----', $level).htmlspecialchars($category->name).'</td>';
     $html .= '<td>';
     $html .= '<button id="update-button-'.$category->id.'" class="btn btn-primary" type="button">update</button>';
-    $html .= '<a href="/delete?id='.$category->id.'">Delete</a>';
+    $html .= '<button id="delete-button-'.$category->id.'" class="btn btn-danger" type="button" style="margin-left: 6px;">delete</button>';
     $html .= '</td>';
     $html .= '</tr>';
 
@@ -168,6 +168,34 @@ $renderCategoryRow = function ($category, $level = 0) use (&$renderCategoryRow) 
         </div>
     </div>
 
+    <!-- Delete category -->
+    <div class="modal" id="delete-category-modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form method="POST" action="/delete" id="delete-category-form">
+                    <input type="number" hidden name="id">
+
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                    <h4 class="modal-title">Update Category</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <p>Are you sure you want to delete this category?</p>
+                    </div>
+                    
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Delete</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
@@ -180,6 +208,11 @@ $renderCategoryRow = function ($category, $level = 0) use (&$renderCategoryRow) 
                     $('#update-category-form input[name="name"]').val('<?= htmlspecialchars($category->name) ?>');
                     $('#update-category-form select[name="parent_id"]').val('<?= $category->parent_id ?>');
                     $('#update-category-modal').modal('show');
+                });
+
+                $('#delete-button-<?= $category->id ?>').click(()=>{
+                    $('#delete-category-form input[name="id"]').val('<?= $category->id ?>');
+                    $('#delete-category-modal').modal('show');
                 });
             <?php } ?>
         });

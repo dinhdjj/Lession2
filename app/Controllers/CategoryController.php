@@ -68,9 +68,17 @@ class CategoryController
     }
 
     /**
-    * Delete a category
-    */
-    // public function delete(Application $app): View
-    // {
-    // }
+     * Delete a category
+     */
+    public function delete(Application $app): View
+    {
+        $id = $app->request()->input('id');
+
+        $category = Category::find($id);
+        $category->delete();
+
+        // redirect back to index page
+        header('Location: /');
+        exit;
+    }
 }
