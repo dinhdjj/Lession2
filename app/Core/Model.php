@@ -81,11 +81,11 @@ abstract class Model
     /**
      * Count all model in database
      */
-    public static function count(): int
+    public static function count(string $concatenationStatement = '', array $data = []): int
     {
-        $statement = sprintf('SELECT COUNT(*) FROM %s', static::table());
+        $statement = sprintf('SELECT COUNT(*) FROM %s %s', static::table(), $concatenationStatement);
 
-        $data = Database::select($statement);
+        $data = Database::select($statement, $data);
 
         return $data[0]['COUNT(*)'];
     }
