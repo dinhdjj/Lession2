@@ -1,6 +1,7 @@
 <?php
 
 use App\Core\Application;
+use App\Core\Database;
 use App\Core\Request;
 
 $root = dirname(__DIR__);
@@ -31,6 +32,6 @@ $request = new Request($_GET, $_POST, $_SERVER);
 
 $app = new Application(config: $config, root: $root, router: $router, request: $request);
 
-define('APP', $app);
+Database::boot($app);
 
 $app->run();
