@@ -48,11 +48,24 @@ class CategoryController
     }
 
     /**
-    * Update a category
-    */
-    // public function update(Application $app): View
-    // {
-    // }
+     * Update a category
+     */
+    public function update(Application $app): View
+    {
+        $id = $app->request()->input('id');
+        $name = $app->request()->input('name');
+        $parentId = $app->request()->input('parent_id');
+
+        $category = Category::find($id);
+
+        $category->name = $name;
+        $category->parent_id = $parentId;
+        $category->save();
+
+        // redirect back to index page
+        header('Location: /');
+        exit;
+    }
 
     /**
     * Delete a category
