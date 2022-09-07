@@ -37,7 +37,17 @@ class Application implements IApplication
      */
     public function config(string $key, mixed $default = null): mixed
     {
-        return $this->config[$key] ?? $default;
+        $keys = explode('.', $key);
+        $value = $this->config;
+
+        foreach ($keys as $key) {
+            if (! isset($value[$key])) {
+                return $default;
+            }
+            $value = $value[$key];
+        }
+
+        return $value;
     }
 
     /**
@@ -50,7 +60,8 @@ class Application implements IApplication
         } catch(NotFoundException $e) {
             echo (new View('errors.404', ['exception' => $e]))->toHtml($this);
         } catch (Exception $e) {
-            echo (new View('errors.500', ['exception' => $e]))->toHtml($this);
+            // echo (new View('errors.500', ['exception' => $e]))->toHtml($this);
+            throw $e;
         }
     }
 }
