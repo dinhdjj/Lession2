@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Core\Model;
+use App\Core\Pagination;
 
 class Category extends Model
 {
@@ -11,7 +12,7 @@ class Category extends Model
         return 'categories';
     }
 
-    public static function paginateWithDeepChildrenAndSearch(int $page = 1, int $perPage = 2, string $search = ''): array
+    public static function paginateWithDeepChildrenAndSearch(int $page = 1, int $perPage = 2, string $search = ''): Pagination
     {
         $search = '%'.$search.'%';
         $offset = ($page - 1) * $perPage;
@@ -75,6 +76,6 @@ class Category extends Model
         };
         $loadChild($parents, $loadChild);
 
-        return $parents;
+        return new Pagination($parents, $page, $perPage, static::count('WHERE name LIKE ?', [$search]));
     }
 }

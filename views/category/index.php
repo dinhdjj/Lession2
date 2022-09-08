@@ -35,7 +35,7 @@ $renderCategoryRow = function ($category, $level = 0) use (&$renderCategoryRow) 
     <!-- Search -->
     <nav class="navbar navbar-light bg-light">
         <form class="form-inline">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search" value="<?= htmlspecialchars($search) ?>">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
 
@@ -54,7 +54,7 @@ $renderCategoryRow = function ($category, $level = 0) use (&$renderCategoryRow) 
             </tr>
         </thead>
         <tbody>   
-            <?php foreach ($categories as $category) {
+            <?php foreach ($categories->items as $category) {
                 echo $renderCategoryRow($category);
             } ?>
         </tbody>
@@ -63,24 +63,24 @@ $renderCategoryRow = function ($category, $level = 0) use (&$renderCategoryRow) 
     <!-- Pagination -->
     <nav aria-label="Page navigation example">
         <ul class="pagination">
-            <?php if ($currentPage > 1) { ?>
+            <?php if ($categories->currentPage > 1) { ?>
                 <li class="page-item">
-                    <a class="page-link" href="<?php echo $currentPage - 1 ?>" aria-label="Previous">
+                    <a class="page-link" href="<?php echo $categories->currentPage - 1 ?><?= $search ? '&search='.htmlspecialchars($search) : '' ?>" aria-label="Previous">
                         <span aria-hidden="true">&laquo;</span>
                         <span class="sr-only">Previous</span>
                     </a>
                 </li>
             <?php } ?>
 
-            <?php foreach (range(1, $totalPage) as $page) { ?>
-                <li class="page-item <?php echo $page == $currentPage ? 'active' : '' ?>">
-                    <a class="page-link" href="?page=<?php echo $page ?>"><?php echo $page ?></a>
+            <?php foreach (range(1, $categories->totalPage) as $page) { ?>
+                <li class="page-item <?php echo $page == $categories->currentPage ? 'active' : '' ?>">
+                    <a class="page-link" href="?page=<?php echo $page ?><?= $search ? '&search='.htmlspecialchars($search) : '' ?>"><?php echo $page ?></a>
                 </li>
             <?php } ?>
             
-            <?php if ($totalPage > $currentPage) { ?>
+            <?php if ($categories->totalPage > $categories->currentPage) { ?>
                 <li class="page-item">
-                    <a class="page-link" href="?page=<?php echo $currentPage + 1 ?>" aria-label="Next">
+                    <a class="page-link" href="?page=<?php echo $categories->currentPage + 1 ?><?= $search ? '&search='.htmlspecialchars($search) : '' ?>" aria-label="Next">
                         <span aria-hidden="true">&raquo;</span>
                         <span class="sr-only">Next</span>
                     </a>

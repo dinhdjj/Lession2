@@ -15,17 +15,14 @@ class CategoryController
     {
         $search = $app->request()->input('search', '');
         $currentPage = $app->request()->input('page', 1);
-        $countCategories = Category::count('WHERE name LIKE ? AND parent_id IS NULL', ['%'.$search.'%']);
         $perPage = 5;
-        $totalPage = ceil($countCategories / $perPage);
 
         $categories = Category::paginateWithDeepChildrenAndSearch($currentPage, $perPage, $search);
 
         return new View('category.index', [
-            'currentPage' => $currentPage,
-            'totalPage' => $totalPage,
             'categories' => $categories,
             'allCategories' => Category::select(),
+            'search' => $search,
         ]);
     }
 
