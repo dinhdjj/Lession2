@@ -5,6 +5,7 @@ DE 1 - Category
 ## Requirement
 
 -   PHP 8.1
+-   MySQL 5+
 
 ## Step 1 - Copy file config.example.php to config.php
 
